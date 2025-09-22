@@ -72,37 +72,30 @@ class ShoppingCart:
 
 # Sample usage demonstrating expected output
 if __name__ == "__main__":
-    # Create a ShoppingCart
-    cart = ShoppingCart("John Doe", "February 1, 2020")
-
-    # Create Item 1
-    item1 = ItemToPurchase()
-    item1.item_name = "Nike Romaleos 2"
-    item1.item_price = 189
-    item1.item_quantity = 2
-    item1.item_description = "Volt color, Weightlifting shoes"
-    cart.add_item(item1)
-
-    # Create Item 2
-    item2 = ItemToPurchase()
-    item2.item_name = "Chocolate Chips"
-    item2.item_price = 3
-    item2.item_quantity = 5
-    item2.item_description = "Semi-sweet"
-    cart.add_item(item2)
-
-    # Create Item 3
-    item3 = ItemToPurchase()
-    item3.item_name = "Powerbeats 2 Headphones"
-    item3.item_price = 128
-    item3.item_quantity = 1
-    item3.item_description = "Bluetooth headphones"
-    cart.add_item(item3)
-
-    # Print total
+    # Prompt for customer name and date
+    customer_name = input("Enter customer's name:\n")
+    current_date = input("Enter today's date:\n")
     print()
+
+    # Create ShoppingCart
+    cart = ShoppingCart(customer_name, current_date)
+
+    # Prompt user to input 3 items
+    for i in range(1, 4):
+        print(f"Item {i}")
+        item = ItemToPurchase()
+        item.item_name = input("Enter the item name:\n")
+        item.item_description = input("Enter the item description:\n")
+        item.item_price = float(input("Enter the item price:\n"))
+        item.item_quantity = int(input("Enter the item quantity:\n"))
+        print()
+        cart.add_item(item)
+
+    # Output cart total
+    print("OUTPUT SHOPPING CART")
     cart.print_total()
-
-    # Print descriptions
     print()
+
+    # Output item descriptions
+    print("OUTPUT ITEMS' DESCRIPTIONS")
     cart.print_descriptions()
