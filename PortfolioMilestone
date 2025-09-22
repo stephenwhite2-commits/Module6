@@ -69,7 +69,7 @@ class ShoppingCart:
         for item in self.cart_items:
             print(f"{item.item_name}: {item.item_description}")
 
-def print_menu(cart:ShoppingCart):
+def print_menu(cart: ShoppingCart):
     menu = (
         "\nMENU\n"
         "a - Add item to cart\n"
@@ -83,41 +83,47 @@ def print_menu(cart:ShoppingCart):
     option = ''
     while option != 'q':
         print(menu)
-        option = input("Choose an option:\n").lower()
+        option = input("Choose an option:\n").strip().lower()
 
         if option == 'a':
-            print("ADD ITEM TO CART")
+            print("\nADD ITEM TO CART")
             item = ItemToPurchase()
             item.item_name = input("Enter the item name:\n")
             item.item_description = input("Enter the item description:\n")
-            item.item_price = float(input("Enter the item price:\n"))
-            item.item_quantity = int(input("Enter the item quantity:\n"))
-            cart.add_item(item)
+            try:
+                item.item_price = float(input("Enter the item price:\n"))
+                item.item_quantity = int(input("Enter the item quantity:\n"))
+                cart.add_item(item)
+            except ValueError:
+                print("Invalid input for price or quantity. Please enter valid numbers.")
 
         elif option == 'r':
-            print("REMOVE ITEM FROM CART" )
+            print("\nREMOVE ITEM FROM CART")
             name = input("Enter name of item to remove:\n")
-            cart.remove_item(name)
+            cart.remove_item(name)  
 
         elif option == 'c':
-            print("CHANGE ITEM QUANTITY")
+            print("\nCHANGE ITEM QUANTITY")
             name = input("Enter the item name:\n")
-            quantity = int(input("Enter the new quantity:\n"))
-            modified_item = ItemToPurchase()
-            modified_item.item_name = name
-            modified_item.item_quantity = quantity
-            cart.modify_item(modified_item)
+            try:
+                quantity = int(input("Enter the new quantity:\n"))
+                modified_item = ItemToPurchase()
+                modified_item.item_name = name
+                modified_item.item_quantity = quantity
+                cart.modify_item(modified_item)  
+            except ValueError:
+                print("Invalid quantity. Please enter a whole number.")
 
         elif option == 'i':
-            print("OUTPUT ITEMS' DESCRIPTIONS")
+            print("\nOUTPUT ITEMS' DESCRIPTIONS")
             cart.print_descriptions()
 
         elif option == 'o':
-            print("OUTPUT SHOPPING CART")
+            print("\nOUTPUT SHOPPING CART")
             cart.print_total()
 
         elif option == 'q':
-            break  # Exit loop
+            break  
 
         else:
             print("Invalid option, please try again.")
