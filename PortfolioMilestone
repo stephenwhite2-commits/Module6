@@ -91,6 +91,7 @@ def print_menu(cart:ShoppingCart):
             item.item_name = input("Enter the item name:\n")
             item.item_description = input("Enter the item description:\n")
             item.item_price = float(input("Enter the item price:\n"))
+            item.item_quantity = int(input("Enter the item quantity:\n"))
             cart.add_item(item)
 
         elif option == 'r':
