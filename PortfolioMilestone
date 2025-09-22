@@ -1,0 +1,44 @@
+class ItemToPurchase:
+  def __init__(self):
+    # simple name for the item
+    self.item_name: str = "none"
+    # cost of a single item, setting to 0 for now
+    self.item_price: float = 0.0
+    # number you want to buy, setting to 0 for now
+    self.item_quantity: int = 0
+  def print_item_cost(self) -> None:
+    # Calculate total for all items
+    total_cost = self.item_price * self.item_quantity
+    # print all together
+    print(f"{self.item_name} {self.item_quantity} @ ${self.item_price:.2f} = ${total_cost:.2f}")
+  def __str__(self) -> str:
+    # summarize
+    return f"{self.item_name} {self.item_quantity} @ ${self.item_price:.2f}"
+
+if __name__ == "__main__":
+  # Prompt for and create the first item
+  print("Item 1")
+  item1 = ItemToPurchase()
+  # details of item
+  item1.item_name = input("Enter the item name:\n")
+  item1.item_price = float(input("Enter the item price:\n"))
+  item1.item_quantity = int(input("Enter the item quantity:\n"))
+
+  #Prompt for and create second item
+  print("Item 2")
+  item2 = ItemToPurchase()
+  # details of item
+  item2.item_name = input("Enter the item name:\n")
+  item2.item_price = float(input("Enter the item price:\n"))
+  item2.item_quantity = int(input("Enter the item quantity:\n"))
+
+  # print cost of each item
+  print(f"Total cost per item:")
+  item1.print_item_cost()
+  item2.print_item_cost()
+
+  # calculate total and print
+  total_item1_cost = item1.item_price * item1.item_quantity
+  total_item2_cost = item2.item_price * item2.item_quantity
+  all_total_cost = total_item1_cost + total_item2_cost
+  print(f"\nTotal: ${all_total_cost:.2f}")
