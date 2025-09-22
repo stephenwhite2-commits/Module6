@@ -1,44 +1,108 @@
 class ItemToPurchase:
-  def __init__(self):
-    # simple name for the item
-    self.item_name: str = "none"
-    # cost of a single item, setting to 0 for now
-    self.item_price: float = 0.0
-    # number you want to buy, setting to 0 for now
-    self.item_quantity: int = 0
-  def print_item_cost(self) -> None:
-    # Calculate total for all items
-    total_cost = self.item_price * self.item_quantity
-    # print all together
-    print(f"{self.item_name} {self.item_quantity} @ ${self.item_price:.2f} = ${total_cost:.2f}")
-  def __str__(self) -> str:
-    # summarize
-    return f"{self.item_name} {self.item_quantity} @ ${self.item_price:.2f}"
+    def __init__(self):
+        self.item_name: str = "none"
+        self.item_price: float = 0.0
+        self.item_quantity: int = 0
+        self.item_description: str = "none"
 
+    def print_item_cost(self) -> None:
+        total_cost = self.item_price * self.item_quantity
+        print(f"{self.item_name} {self.item_quantity} @ ${int(self.item_price)} = ${int(total_cost)}")
+
+    def __str__(self) -> str:
+        return f"{self.item_name} {self.item_quantity} @ ${self.item_price:.2f}"
+
+
+class ShoppingCart:
+    def __init__(self, customer_name: str = "none", current_date: str = "January 1, 2020"):
+        self.customer_name = customer_name
+        self.current_date = current_date
+        self.cart_items = []
+
+    def add_item(self, item: ItemToPurchase) -> None:
+        self.cart_items.append(item)
+
+    def remove_item(self, item_name: str) -> None:
+        item_found = False
+        for item in self.cart_items:
+            if item.item_name.lower() == item_name.lower():
+                self.cart_items.remove(item)
+                item_found = True
+                break
+        if not item_found:
+            print("Item not found in cart. Nothing removed.")
+
+    def modify_item(self, item: ItemToPurchase) -> None:
+        item_found = False
+        for cart_item in self.cart_items:
+            if cart_item.item_name.lower() == item.item_name.lower():
+                if item.item_price != 0.0:
+                    cart_item.item_price = item.item_price
+                if item.item_quantity != 0:
+                    cart_item.item_quantity = item.item_quantity
+                if item.item_description != "none":
+                    cart_item.item_description = item.item_description
+                item_found = True
+                break
+        if not item_found:
+            print("Item not found in cart. Nothing modified.")
+
+    def get_num_items_in_cart(self) -> int:
+        return sum(item.item_quantity for item in self.cart_items)
+
+    def get_cost_of_cart(self) -> float:
+        return sum(item.item_price * item.item_quantity for item in self.cart_items)
+
+    def print_total(self) -> None:
+        print(f"{self.customer_name}'s Shopping Cart - {self.current_date}")
+        print(f"Number of Items: {self.get_num_items_in_cart()}")
+        if not self.cart_items:
+            print("\nSHOPPING CART IS EMPTY")
+        else:
+            for item in self.cart_items:
+                item.print_item_cost()
+            print(f"\nTotal: ${int(self.get_cost_of_cart())}")
+
+    def print_descriptions(self) -> None:
+        print(f"{self.customer_name}'s Shopping Cart - {self.current_date}")
+        print("Item Descriptions")
+        for item in self.cart_items:
+            print(f"{item.item_name}: {item.item_description}")
+
+
+# Sample usage demonstrating expected output
 if __name__ == "__main__":
-  # Prompt for and create the first item
-  print("Item 1")
-  item1 = ItemToPurchase()
-  # details of item
-  item1.item_name = input("Enter the item name:\n")
-  item1.item_price = float(input("Enter the item price:\n"))
-  item1.item_quantity = int(input("Enter the item quantity:\n"))
+    # Create a ShoppingCart
+    cart = ShoppingCart("John Doe", "February 1, 2020")
 
-  #Prompt for and create second item
-  print("Item 2")
-  item2 = ItemToPurchase()
-  # details of item
-  item2.item_name = input("Enter the item name:\n")
-  item2.item_price = float(input("Enter the item price:\n"))
-  item2.item_quantity = int(input("Enter the item quantity:\n"))
+    # Create Item 1
+    item1 = ItemToPurchase()
+    item1.item_name = "Nike Romaleos 2"
+    item1.item_price = 189
+    item1.item_quantity = 2
+    item1.item_description = "Volt color, Weightlifting shoes"
+    cart.add_item(item1)
 
-  # print cost of each item
-  print(f"Total cost per item:")
-  item1.print_item_cost()
-  item2.print_item_cost()
+    # Create Item 2
+    item2 = ItemToPurchase()
+    item2.item_name = "Chocolate Chips"
+    item2.item_price = 3
+    item2.item_quantity = 5
+    item2.item_description = "Semi-sweet"
+    cart.add_item(item2)
 
-  # calculate total and print
-  total_item1_cost = item1.item_price * item1.item_quantity
-  total_item2_cost = item2.item_price * item2.item_quantity
-  all_total_cost = total_item1_cost + total_item2_cost
-  print(f"\nTotal: ${all_total_cost:.2f}")
+    # Create Item 3
+    item3 = ItemToPurchase()
+    item3.item_name = "Powerbeats 2 Headphones"
+    item3.item_price = 128
+    item3.item_quantity = 1
+    item3.item_description = "Bluetooth headphones"
+    cart.add_item(item3)
+
+    # Print total
+    print()
+    cart.print_total()
+
+    # Print descriptions
+    print()
+    cart.print_descriptions()
