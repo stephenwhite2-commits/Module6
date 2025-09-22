@@ -69,33 +69,68 @@ class ShoppingCart:
         for item in self.cart_items:
             print(f"{item.item_name}: {item.item_description}")
 
+def print_menu(cart:ShoppingCart):
+    menu = (
+        "\nMENU\n"
+        "a - Add item to cart\n"
+        "r - Remove item from cart\n"
+        "c - Change item quantity\n"
+        "i - Output items' descriptions\n"
+        "o - Output shopping cart\n"
+        "q - Quit"
+    )
 
-# Sample usage demonstrating expected output
+    option = ''
+    while option != 'q':
+        print(menu)
+        option = input("Choose an option:\n").lower()
+
+        if option == 'a':
+            print("ADD ITEM TO CART")
+            item = ItemToPurchase()
+            item.item_name = input("Enter the item name:\n")
+            item.item_description = input("Enter the item description:\n")
+            item.item_price = float(input("Enter the item price:\n"))
+            cart.add_item(item)
+
+        elif option == 'r':
+            print("REMOVE ITEM FROM CART" )
+            name = input("Enter name of item to remove:\n")
+            cart.remove_item(name)
+
+        elif option == 'c':
+            print("CHANGE ITEM QUANTITY")
+            name = input("Enter the item name:\n")
+            quantity = int(input("Enter the new quantity:\n"))
+            modified_item = ItemToPurchase()
+            modified_item.item_name = name
+            modified_item.item_quantity = quantity
+            cart.modify_item(modified_item)
+
+        elif option == 'i':
+            print("OUTPUT ITEMS' DESCRIPTIONS")
+            cart.print_descriptions()
+
+        elif option == 'o':
+            print("OUTPUT SHOPPING CART")
+            cart.print_total()
+
+        elif option == 'q':
+            break  # Exit loop
+
+        else:
+            print("Invalid option, please try again.")
+
+# Main function
 if __name__ == "__main__":
     # Prompt for customer name and date
     customer_name = input("Enter customer's name:\n")
     current_date = input("Enter today's date:\n")
-    print()
+    print(f"\n Customer name: {customer_name}")
+    print(f"Today's date: {current_date}\n")
 
     # Create ShoppingCart
     cart = ShoppingCart(customer_name, current_date)
 
-    # Prompt user to input 3 items
-    for i in range(1, 4):
-        print(f"Item {i}")
-        item = ItemToPurchase()
-        item.item_name = input("Enter the item name:\n")
-        item.item_description = input("Enter the item description:\n")
-        item.item_price = float(input("Enter the item price:\n"))
-        item.item_quantity = int(input("Enter the item quantity:\n"))
-        print()
-        cart.add_item(item)
-
-    # Output cart total
-    print("OUTPUT SHOPPING CART")
-    cart.print_total()
-    print()
-
-    # Output item descriptions
-    print("OUTPUT ITEMS' DESCRIPTIONS")
-    cart.print_descriptions()
+    # Print cart
+    print_menu(cart)
